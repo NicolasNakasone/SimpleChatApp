@@ -1,6 +1,6 @@
 {
   "parser": "@typescript-eslint/parser",
-  "plugins": ["react", "import"],
+  "plugins": ["react", "import", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -91,7 +91,8 @@
       }
     ],
     "no-await-in-loop": 1,
-    "no-duplicate-imports": 2
+    "no-duplicate-imports": 2,
+    "prettier/prettier": "error"
   },
   "ignorePatterns": [
     "**/*.js",
