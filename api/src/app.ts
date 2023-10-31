@@ -1,5 +1,4 @@
 import { createServer } from 'node:http'
-import { join } from 'path'
 
 import dotenv from 'dotenv'
 import express from 'express'
@@ -12,13 +11,17 @@ const { API_PORT } = process.env
 
 export const app = express()
 const server = createServer(app)
-const io = new Server(server)
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:5173',
+  },
+})
 
 app.set('port', API_PORT || 4001)
 app.use(logger('dev'))
 
 app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, 'index.html'))
+  res.send(`<h1>SimpleChatApp<h1>`)
 })
 
 io.on('connection', socket => {
