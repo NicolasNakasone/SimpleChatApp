@@ -1,13 +1,20 @@
-import { FormEvent, useEffect, useRef } from 'react'
+import { FormEvent, useEffect, useRef, useState } from 'react'
 
 import { io } from 'socket.io-client'
+import { v4 as uuid } from 'uuid'
 
 import 'src/App.css'
+
+interface Message {
+  id: string
+  message: string
+}
 
 export const App = () => {
   const socket = io(import.meta.env.VITE_API_URL)
 
-  const messagesRef = useRef<HTMLUListElement | null>(null)
+  const [messages, setMessages] = useState<Message[]>([])
+
   const inputRef = useRef<HTMLInputElement | null>(null)
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -19,17 +26,20 @@ export const App = () => {
   }
 
   useEffect(() => {
-    socket.on('chat message', msg => {
-      const item = document.createElement('li')
-      item.textContent = msg
-      messagesRef.current?.appendChild(item)
+    socket.on('chat message', message => {
+      setMessages(prev => [...prev, { id: uuid(), message }])
+
       window.scrollTo(0, document.body.scrollHeight)
     })
   }, [])
 
   return (
     <main>
-      <ul ref={messagesRef} id="messages" />
+      <ul id="messages">
+        {messages.map(({ id, message }) => {
+          return <li key={id}>{message}</li>
+        })}
+      </ul>
       <form id="form" onSubmit={handleSubmit}>
         <input ref={inputRef} id="input" autoComplete="off" />
         <button type="submit">Send</button>
