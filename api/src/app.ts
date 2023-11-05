@@ -1,5 +1,6 @@
 import { createServer } from 'node:http'
 
+import cors from 'cors'
 import dotenv from 'dotenv'
 import express from 'express'
 import logger from 'morgan'
@@ -10,10 +11,11 @@ dotenv.config()
 const { API_PORT } = process.env
 
 export const app = express()
+app.use(cors())
 const server = createServer(app)
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: '*',
   },
 })
 
