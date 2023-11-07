@@ -10,4 +10,13 @@ export default defineConfig({
       public: path.resolve(__dirname, 'public'),
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: '*',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })

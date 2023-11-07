@@ -11,7 +11,7 @@ interface Message {
 }
 
 export const App = () => {
-  const socket = io(import.meta.env.VITE_API_URL)
+  const socket = io(import.meta.env.VITE_API_URL, { transports: ['websocket'] })
 
   const [messages, setMessages] = useState<Message[]>([])
 
